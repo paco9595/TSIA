@@ -1,24 +1,27 @@
 import os
 def LeerDatos(nombre):
-    archivo = open(nombre,"r")
-    suma = ""
-    aux = []
-    datos = []
-    i = 0
-    for linea in archivo.readlines():
-        for x in linea:
-            if x != " " and x != "\n" and x != "-":
-                suma += x
-            else:
-                if(len(suma) > 0):
-                    aux.append(float(suma))
-                    suma = ""
-        if(len(aux)>0):
-            i += 1
-            datos.append(aux)
-            aux = []
-    return datos
-
+    try :
+        archivo = open(nombre,"r")
+        suma = ""
+        aux = []
+        datos = []
+        i = 0
+        for linea in archivo.readlines():
+            for x in linea:
+                if x != " " and x != "\n" and x != "-":
+                    suma += x
+                else:
+                    if(len(suma) > 0):
+                        aux.append(float(suma))
+                        suma = ""
+            if(len(aux)>0):
+                i += 1
+                datos.append(aux)
+                aux = []
+        return datos
+    except ValueError:
+        print('format error')
+        return 
 def menu(opciones, texto):
     opcion = -100
     while(opcion < 0 or opcion > len(opciones)):
@@ -111,16 +114,17 @@ def ValidarExprecion(ex,datos):
                 resultado = Comparar([e[i-1], letra, e[i+1]], datos)
             else:
                 resultado = Comparar([resultado, letra, e[i+1]], datos)
-    return resultado
-def Main():
+    return resulta
     opcion = menu(["archivo de texto","Random","Manual"], 'leer datos por medio de: ')
     datos = {
         1: LeerDatos('../txt/numeros_difusos.txt'),
         2: GenerarRandom(),
         3: Manual()
     }.get(opcion,2)
+    if(not(datos)):
+        return
     Negativo(datos[0])
-    print(ValidarExprecion("(0 N 1 U -2)",datos),"final")
+    print(ValidarExprecion("0 N 1 U -2 N -1 U 2 N 0 N -1",datos),"final")
      
 
 
