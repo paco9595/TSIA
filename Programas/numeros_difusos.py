@@ -66,6 +66,7 @@ def laN(derecha,izquierda, datos):
             newArray.append(izquierda[i])
     return newArray
 def Comparar(ex, datos):
+    print(ex)
     try:
         if(not(type(ex[0]) is list)):
             if int(ex[0]) < 0:
@@ -80,41 +81,50 @@ def Comparar(ex, datos):
             izquierda = datos[int(ex[2])]
         operador = ex[1]
     except IndexError:
-        print('exprecion invalida')
+        print('exprecion invalida 83')
         return
     except ValueError:
-        print('exprecion invalida')
+        print('exprecion invalida 86')
         return 
     if operador == 'U':
         resultado = laU(derecha,izquierda, datos)
     elif operador == 'N':
         resultado = laN(derecha,izquierda, datos)
     return resultado
+def sacarParentesis(ex):
+    inicio = ex.find('(')
+    fin = ex.rfind(')') 
+    if inicio == -1 or fin == -1:
+        return False
+        
+    e = ex[ ex.find('(') + 1 : ex.rfind(')')]
+    return e
 def ValidarExprecion(ex,datos):
     resultado = []
-    inicio = ex.find('(')
-    fin = ex.rfind(')')
-    if(inicio > -1 and fin == -1 or inicio == -1 and fin > -1):
-        print('exprecion invalida 53')
+    e = sacarParentesis(ex)
+    if not e:
         return
-    if ex.find('(') > -1 and ex.rfind(')') > -1:
-        e = ex[ ex.find('(') + 1 : ex.rfind(')')]
-    else:
-        e = ex 
+    
     e = e.split(' ')  
-    for i, letra in enumerate(e):
+    print(e)
+
+def solveString(ex,datos):
+    resultado = []
+    for i, letra in enumerate(ex):
         if len(letra) > 1 and letra[0] !='-':
             print('exprecion invalida 69')
             return
         if letra == 'U' or letra == 'N':
-            if i == 0 or i == len(e) - 1:
+            if i == 0 or i == len(ex) - 1:
                 print('exprecion invalida 73')
                 return
             if(len(resultado) == 0):
-                resultado = Comparar([e[i-1], letra, e[i+1]], datos)
+                print(i,ex, ex[i-1],'hola')
+                resultado = Comparar([ex[i-2], letra, ex[i+2]], datos)
             else:
-                resultado = Comparar([resultado, letra, e[i+1]], datos)
-    return resulta
+                resultado = Comparar([resultado, letra, ex[i+1]], datos)
+    return resultado
+def Main():
     opcion = menu(["archivo de texto","Random","Manual"], 'leer datos por medio de: ')
     datos = {
         1: LeerDatos('../txt/numeros_difusos.txt'),
@@ -124,7 +134,9 @@ def ValidarExprecion(ex,datos):
     if(not(datos)):
         return
     Negativo(datos[0])
-    print(ValidarExprecion("0 N 1 U -2 N -1 U 2 N 0 N -1",datos),"final")
+    # print(solveString('(1 N 0)', datos))
+    # sacarParentesis(sacarParentesis("(0 N (1 N 1))"))
+    print(ValidarExprecion("(0 N (0 N 1))",datos),"final")
      
 
 
