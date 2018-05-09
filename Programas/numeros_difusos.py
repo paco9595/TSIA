@@ -66,7 +66,6 @@ def laN(derecha,izquierda, datos):
             newArray.append(izquierda[i])
     return newArray
 def Comparar(ex, datos):
-    print(ex)
     try:
         if(not(type(ex[0]) is list)):
             if int(ex[0]) < 0:
@@ -84,6 +83,7 @@ def Comparar(ex, datos):
         print('exprecion invalida 83')
         return
     except ValueError:
+
         print('exprecion invalida 86')
         return 
     if operador == 'U':
@@ -95,18 +95,17 @@ def sacarParentesis(ex):
     inicio = ex.find('(')
     fin = ex.rfind(')') 
     if inicio == -1 or fin == -1:
-        return False
+        return []
         
     e = ex[ ex.find('(') + 1 : ex.rfind(')')]
     return e
 def ValidarExprecion(ex,datos):
     resultado = []
     e = sacarParentesis(ex)
-    if not e:
+    if len(e) < 1:
         return
-    
-    e = e.split(' ')  
-    print(e)
+    e = e.split(' ') 
+    return solveString(e,datos) 
 
 def solveString(ex,datos):
     resultado = []
@@ -119,8 +118,7 @@ def solveString(ex,datos):
                 print('exprecion invalida 73')
                 return
             if(len(resultado) == 0):
-                print(i,ex, ex[i-1],'hola')
-                resultado = Comparar([ex[i-2], letra, ex[i+2]], datos)
+                resultado = Comparar([ex[i-1], letra, ex[i+1]], datos)
             else:
                 resultado = Comparar([resultado, letra, ex[i+1]], datos)
     return resultado
@@ -133,10 +131,7 @@ def Main():
     }.get(opcion,2)
     if(not(datos)):
         return
-    Negativo(datos[0])
-    # print(solveString('(1 N 0)', datos))
-    # sacarParentesis(sacarParentesis("(0 N (1 N 1))"))
-    print(ValidarExprecion("(0 N (0 N 1))",datos),"final")
+    print(ValidarExprecion("(0 N 0 N 1)",datos),"final")
      
 
 
