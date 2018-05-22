@@ -46,7 +46,7 @@ def leerNombre(nombre):
         return
 
 def buscarPrimero(datos, visitadas, pos):
-    print(datos,visitadas, pos)
+    print(datos,visitadas, pos + 1)
     for i, x in enumerate(datos):
         if x > 0 and visitadas[i] == 0:
             return i
@@ -56,29 +56,39 @@ def busqueda_profunda(datos,inicio,fin):
     visitadas[inicio] = 1
     camino = [inicio]
     posicion = inicio
-    sal = False
+    costo = 0
     sal1 = False
-    while not sal:
+    iteraciones = 0
+    iteraciones1 = 0
+    while True and iteraciones < 100000:
         if posicion == fin:
+            print('costo', costo)
             return camino
-        while not sal1:
+        while not sal1 and iteraciones1 < 100000:
+            pos1 = posicion + 0 
             posicion = buscarPrimero(datos[posicion], visitadas, posicion)
             if posicion != -1:
+                costo += datos[int(pos1)][posicion]
                 visitadas[posicion] = 1
                 camino.append(posicion)
                 sal1 = True
             else:
-                camino.pop()
+                eliminar = camino.pop()
+                costo -= datos[int(pos1)][eliminar]
                 posicion = camino[ len(camino) - 1]
+            iteraciones1 += 1
         sal1 = False
-    return camino
+        iteraciones1 = 0
+        iteraciones += 1
+    print('fatal Error')
+    return []
 
 def Main():
     ciudades = leerNombre('../Txt/nombres_alemania.txt')
     datos = LeerDatos('../Txt/alemania.txt')
     visitadas = [0] * len(datos)
-    final = busqueda_profunda(datos,0,18)
-    print(final)
+    final = busqueda_profunda(datos,0,13)
+    print('caminio',final)
     for x in final:
-        print(x+1,("-.")if x+1 >= 10 else (" -."),ciudades[x])
+        print(x + 1,("-.")if x + 1 >= 10 else (" -."),ciudades[x])
 Main()

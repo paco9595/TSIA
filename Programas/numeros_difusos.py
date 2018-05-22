@@ -131,7 +131,7 @@ def Main():
     }.get(opcion,2)
     if(not(datos)):
         return
-    print(ValidarExprecion("(0 N 0 N 1)",datos),"final")
+    print(ValidarExprecion("(1 U -2)",datos),"final")
      
 
 
